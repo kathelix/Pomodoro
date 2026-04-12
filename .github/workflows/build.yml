@@ -23,7 +23,7 @@ jobs:
           xcodebuild \
             -project Pomodoro/Pomodoro.xcodeproj \
             -scheme Pomodoro \
-            -destination 'generic/platform=iOS Simulator' \
+            -destination 'generic/platform=iOS' \
             -configuration Debug \
             CODE_SIGNING_ALLOWED=NO \
             build
