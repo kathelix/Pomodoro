@@ -7,13 +7,19 @@
 
 ## Branch & workflow
 - Always work directly on `main`. No worktrees, no feature branches, no PRs unless explicitly asked.
-- Commit changes to `main` and push. Ivan tests locally in Xcode on his iPhone before deciding to keep or revert.
+- Ivan tests locally in Xcode on his iPhone before deciding to keep or revert.
 
 ## Pull requests
 - Do not create PRs by default. Only create one when explicitly asked.
 
 ## Commits
-- Commit as soon as a logical change is complete. Don't batch unrelated changes into one commit.
+- Don't auto-commit. Make the change, then wait for Ivan to review before committing.
+- When Ivan asks to commit, stage only what's under review; don't batch unrelated changes.
+- Don't `git push` unless explicitly asked.
+
+## File and git access
+- Read and edit any file in the project, even untracked or unstaged ones, without asking.
+- Run any `git` or `gh` command without asking. Still confirm before destructive operations (`push --force`, `reset --hard`, `branch -D`, etc.).
 
 ## Code style
 - SwiftUI + SwiftData, iOS 17+, MVVM architecture.
