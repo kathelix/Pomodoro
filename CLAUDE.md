@@ -6,7 +6,8 @@
 - TODO.md - informal list of changes to be done, bugs, new features etc, update it when implementing todo tasks from this file
 
 ## Branch & workflow
-- Always operate in the top-level repo directory (`/Users/Shared/git/github.com/pomodoro/`). Never `cd` into or edit files under `.claude/worktrees/*`. If the harness has placed you inside a worktree, switch to the main repo dir before doing any work.
+- **First action in any new session:** print `pwd` and `git branch --show-current` to confirm the workspace. If cwd is under `.claude/worktrees/*`, switch to the main repo dir (and remove the worktree if it's stale) before editing any file. The harness sometimes drops you in a worktree despite this preference.
+- Always operate in the top-level repo directory (`/Users/Shared/git/github.com/pomodoro/`). Never `cd` into or edit files under `.claude/worktrees/*`.
 - Prefer working directly on `main`. Use a feature branch only when explicitly asked.
 - Ivan tests locally in Xcode on his iPhone before deciding to keep or revert.
 
@@ -22,6 +23,10 @@
 - Read and edit any file in the project, even untracked or unstaged ones, without asking.
 - Run any `git` or `gh` command without asking. Still confirm before destructive operations (`push --force`, `reset --hard`, `branch -D`, etc.).
 - Run any standard CLI commands (`find`, `ls`, `mv`, `cp`, `grep`, `rm`, etc.) without asking.
+
+## Planning & debugging
+- For features touching iOS extensions, capabilities, or entitlements (App Groups, Keychain Sharing, Push Notifications, Background Modes, etc.), surface any paid Apple Developer Program dependency at planning time, before requesting manual Xcode steps. Ivan's account is currently free-tier pending approval.
+- When diagnosing unclear behaviour (unexpected logs, intermittent failures, "this doesn't work"), label the diagnosis as a hypothesis and propose a way to verify it before applying the fix. Don't ship a fix justified by a guess.
 
 ## Code style
 - SwiftUI + SwiftData, iOS 17+, MVVM architecture.
