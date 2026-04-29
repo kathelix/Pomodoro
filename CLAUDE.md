@@ -30,6 +30,9 @@
 - For features touching iOS extensions, capabilities, or entitlements (App Groups, Keychain Sharing, Push Notifications, Background Modes, etc.), surface any paid Apple Developer Program dependency at planning time, before requesting manual Xcode steps. Ivan's account is currently free-tier pending approval.
 - When uncertain whether a capability requires the paid Apple Developer Program, say so explicitly rather than asserting either way. Propose the cheapest possible verification first (e.g. wire only the entitlement and attempt a build) before writing dependent code.
 - When diagnosing unclear behaviour (unexpected logs, intermittent failures, "this doesn't work"), label the diagnosis as a hypothesis and propose a way to verify it before applying the fix. Don't ship a fix justified by a guess.
+- Before asking Ivan to device-test, run `xcodebuild -scheme Pomodoro -destination 'platform=iOS Simulator,name=iPhone 17 Pro' test` from `Pomodoro/` to confirm compile + unit tests pass — cheapest pre-check before burning a device cycle.
+- Hardware-only frameworks (CoreHaptics, CoreLocation, CoreMotion, audio session) can't be exercised on simulator. Plan a device-test step from the start of the task; simulator only confirms compile correctness.
+- Some iOS framework logs are noise even when code is correct: CHHapticEngine warnings during audio-session setup (`Player start failed`, `Startup timeout`), CoreData sandbox/stat errors at launch. If user-visible behaviour is right, accept them rather than chasing.
 
 ## Code style
 - SwiftUI + SwiftData, iOS 17+, MVVM architecture.
