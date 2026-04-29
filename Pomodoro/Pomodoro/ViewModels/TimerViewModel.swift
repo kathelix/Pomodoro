@@ -35,7 +35,6 @@ final class TimerViewModel {
     private var startDate: Date?
     private var endDate: Date?
     private var hapticEngine: CHHapticEngine?
-    private var hapticPlayer: CHHapticPatternPlayer?
     private var liveActivity: Activity<PomodoroActivityAttributes>?
 
     init(now: @escaping () -> Date = Date.init,
@@ -188,8 +187,7 @@ final class TimerViewModel {
             return
         }
         do {
-            let engine = try CHHapticEngine()
-            hapticEngine = engine
+            let engine = try ensureHapticEngine()
             let events: [CHHapticEvent] = [
                 CHHapticEvent(
                     eventType: .hapticContinuous,
@@ -214,12 +212,22 @@ final class TimerViewModel {
             ]
             let pattern = try CHHapticPattern(events: events, parameters: [])
             let player = try engine.makePlayer(with: pattern)
-            hapticPlayer = player
-            engine.start { [weak self] error in
-                guard error == nil else { return }
-                try? self?.hapticPlayer?.start(atTime: CHHapticTimeImmediate)
-            }
+            try player.start(atTime: CHHapticTimeImmediate)
         } catch {}
+    }
+
+    private func ensureHapticEngine() throws -> CHHapticEngine {
+        if let engine = hapticEngine { return engine }
+        let engine = try CHHapticEngine()
+        engine.resetHandler = { [weak engine] in
+            try? engine?.start()
+        }
+        engine.stoppedHandler = { [weak engine] _ in
+            try? engine?.start()
+        }
+        try engine.start()
+        hapticEngine = engine
+        return engine
     }
 
     private func cancelNotification() {
